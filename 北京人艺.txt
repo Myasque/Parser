@@ -1,0 +1,38 @@
+#实现功能：购买、预定和投诉
+step welcome
+	output $name + 欢迎您致电北京人民艺术剧院，话剧《原野》和朗读会《李白》售票中，所有剧目一经售出不退不换。请问有什么可以帮您？请说：购买话剧、预定朗读会、投诉。
+	listen
+	branch 购买话剧 purchaseProc
+	branch 预定朗读会 orderProc #免费活动
+	branch 投诉 complainProc
+	silence silenceProc
+	default defaultProc
+step purchaseProc
+	output 您已成功购买此剧目，请在指定日期前来取票观看。
+	$ticket++
+	exit
+step orderProc
+	output 您已成功订购此剧目，请在指定日期前来参加。
+	$order++
+	exit
+step complainProc
+	output 感谢您的建议，您的反馈我们已经收到，请问您还有什么要补充的吗？
+	listen
+	default goodbye
+step silenceProc
+	output 对不起我没有听到您的声音，可以请您重复一遍吗？
+	branch 购买话剧 purchaseProc
+	branch 预定朗读会 orderProc
+	branch 投诉 complainProc
+	silence silenceProc
+	default defaultProc
+step defaultProc
+	output 对不起我没有理解，您能换一种方式表达吗？请说：购买话剧、预定朗读会、投诉。
+	branch 购买话剧 purchaseProc
+	branch 预定朗读会 orderProc #免费活动
+	branch 投诉 complainProc
+	silence silenceProc
+	default defaultProc
+step goodbye
+	output 感谢您的来电，再见！
+	exit

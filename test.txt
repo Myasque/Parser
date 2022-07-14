@@ -1,0 +1,9 @@
+#这是一行注释
+step welcome
+	output $name + 欢迎您致电国家大剧院
+	listen #test
+	branch 上映剧目 showProc
+	branch 订票 purchaseProc
+	branch 退票 refundProc
+	branch 投诉 complainProc
+	default defaultProc

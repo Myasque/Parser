@@ -1,0 +1,47 @@
+step welcome
+	output $name + 欢迎您致电国家大剧院，请问有什么可以帮您？请说：上映剧目、订票、退票、投诉
+	listen 5 20#test
+	branch 上映剧目 showProc
+	branch 订票 purchaseProc
+	branch 退票 refundProc
+	branch 投诉 complainProc
+	silence silenceProc
+	default defaultProc
+step showProc
+	output 正在上演的剧目是舞剧《冼星海》，请问您是否要进行购票？
+	listen 5 20
+	branch 是 purchaseProc
+	branch 否 goodbye
+	default defaultProc
+step purchaseProc
+	output 您已成功购买此剧目，请在指定日期前来取票观看。
+	$ticket++
+	exit
+step refundProc
+	output 您的订票已经取消。
+	$ticket--
+	exit
+step complainProc
+	output 感谢您的建议，您的反馈我们已经收到，请问您还有什么要补充的吗？
+	listen 5 20
+	default goodbye
+step silenceProc
+	output 对不起我没有听清，可以请您重复一遍吗？
+	branch 上映剧目 showProc
+	branch 订票 purchaseProc
+	branch 退票 refundProc
+	branch 投诉 complainProc
+	silence silenceProc
+	default defaultProc
+step defaultProc
+	output 对不起我没有理解，您能换一种方式表达吗？
+	branch 上映剧目 showProc
+	branch 订票 purchaseProc
+	branch 退票 refundProc
+	branch 投诉 complainProc
+	branch 退出 goodbye
+	silence silenceProc
+	default defaultProc
+step goodbye
+	output 感谢您的来电，再见！ 
+	exit
